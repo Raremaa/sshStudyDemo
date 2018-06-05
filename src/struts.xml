@@ -5,13 +5,19 @@
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 
 <struts>
-    <!--将action的创建交给spring容器-->
+    <!--将action的创建交给spring容器 同时spring会自动装配依赖对象-->
     <constant name="struts.objectFactory" value="spring"/>
     <package name="crm" namespace="/" extends="struts-default">
         <!--struts2 2.5+需添加这一条进行动态方法调用-->
         <global-allowed-methods>regex:.*</global-allowed-methods>
-        <!--整合方案1:class属性上仍然配置action的完整类名-->
-        <action name="UserAction_*" class="com.zing.styud.UserAction" method="{1}">
+        <!--整合方案1(不推荐):class属性上仍然配置action的完整类名
+            acition由struts2 创建 依赖对象交给spring注入
+        -->
+        <!--整合方案2(非常推荐)
+            spring全程负责创建action以及注入依赖对象
+            注意:采用这个方案，spring无法自动装配依赖对象，需手动注入依赖对象
+        -->
+        <action name="UserAction_*" class="userAction" method="{1}">
             <result name="success">success.jsp</result>
         </action>
     </package>

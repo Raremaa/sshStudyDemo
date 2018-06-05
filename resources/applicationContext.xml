@@ -3,5 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean name="userAction" class="com.zing.styud.UserAction"></bean>
+    <!--这里需要把scope属性设置为prototype即多例模式 这样才符合struts2的action每次都会创建新实例的架构-->
+    <bean name="userAction" class="com.zing.action.UserAction" scope="prototype">
+        <property name="userService" ref="userService"/>
+    </bean>
+    <bean name="userService" class="com.zing.service.UserServiceImpl"/>
 </beans>
