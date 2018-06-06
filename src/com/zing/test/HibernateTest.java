@@ -1,5 +1,6 @@
 package com.zing.test;
 
+import com.zing.dao.CustomDao;
 import com.zing.pojo.Customer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,6 +20,7 @@ public class HibernateTest {
     private SessionFactory sf;
 
     @Test
+    //测试spring管理sessionFactory
     public void fun2(){
         Session session = sf.openSession();
         Transaction tx = session.beginTransaction();
@@ -32,6 +34,7 @@ public class HibernateTest {
     }
 
     @Test
+    //测试hibernate
     public void fun1(){
         Configuration conf = new Configuration().configure();
         SessionFactory sf =  conf.buildSessionFactory();
@@ -43,5 +46,14 @@ public class HibernateTest {
         tx.commit();
         session.close();
         sf.close();
+    }
+
+    @Resource(name = "customDao")
+    private CustomDao customDao;
+    @Test
+    //测试Dao Hibernate模版
+    public void fun3(){
+        Customer c = customDao.getById((long) 2);
+        System.out.println(c);
     }
 }

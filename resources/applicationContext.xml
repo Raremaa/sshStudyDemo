@@ -44,4 +44,8 @@
         <property name="userService" ref="userService"/>
     </bean>
     <bean name="userService" class="com.zing.service.UserServiceImpl"/>
+    <bean name="customDao" class="com.zing.dao.CustomDaoImpl">
+        <!--注入sessionFactory-->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>
