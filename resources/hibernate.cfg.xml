@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://localhost:3306/ssh</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">root</property>
+    <!--数据库方言-->
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</property>
+    <!--将hibernate生成的sql语句打印到控制台-->
+    <property name="hibernate.show_sql">true</property>
+    <!--将hibernate生成的sql语句格式化(语法缩进)-->
+    <property name="hibernate.format_sql">true</property>
+    <!--自动生成表,如果已经存在不会再生成.如果表有变动,自动更新表(不会删除任何数据)-->
+    <!--即自动导出表结构,自动生成表-->
+    <property name="hbm2ddl.auto">update</property>
+    <!--&lt;!&ndash;事务隔离级别,由于事务交给spring管理，此处不再配置&ndash;&gt;-->
+    <!--<property name="hibernate.connection.isolation">4</property>-->
+    <!--&lt;!&ndash;指定session与当前线程绑定,由于spring有管理session机制，所以此处也不配置&ndash;&gt;-->
+    <!--<property name="hibernate.current_session_context_class">thread</property>-->
+    <mapping resource="com/zing/pojo/Customer.hbm.xml"/>
+    <mapping resource="com/zing/pojo/LinkMan.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>
