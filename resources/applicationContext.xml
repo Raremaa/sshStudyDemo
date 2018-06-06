@@ -3,6 +3,30 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--将SessionFactory配置到spring容器中-->
+    <!--加载配置方案1:仍然使用外部的hibernate配置信息-->
+    <!--<bean name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">-->
+        <!--<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>-->
+    <!--</bean>-->
+    <!--加载配置方案2:在spring配置中放置hibernate配置信息-->
+    <bean name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="hibernateProperties">
+            <props>
+                <!--必选配置-->
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/ssh</prop>
+                <prop key="hibernate.connection.username">root</prop>
+                <prop key="hibernate.connection.password">root</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</prop>
+                <!--可选配置-->
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+        <!--引入orm元数据-->
+        <property name="mappingDirectoryLocations" value="classpath:com/zing/pojo"></property>
+    </bean>
     <!--这里需要把scope属性设置为prototype即多例模式 这样才符合struts2的action每次都会创建新实例的架构-->
     <bean name="userAction" class="com.zing.action.UserAction" scope="prototype">
         <property name="userService" ref="userService"/>
