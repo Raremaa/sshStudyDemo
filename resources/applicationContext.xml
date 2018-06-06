@@ -19,20 +19,24 @@
     <bean name="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
-
-    <!--配置通知-->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="save*" isolation="REPEATABLE_READ" read-only="false" propagation="REQUIRED"/>
-        </tx:attributes>
-    </tx:advice>
-    <!--配置将通知织入目标对象-->
-    <aop:config>
-        <!--配置切入点-->
-        <aop:pointcut id="txpc" expression="execution(* com.zing.service.*Impl.*(..))"></aop:pointcut> 
-        <!--配置切面-->
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="txpc"></aop:advisor>
-    </aop:config>
+    <!--==================================aop事务注解-->
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+    <!--==================================aop事务注解-->
+    <!--==================================aop事务xml-->
+    <!--&lt;!&ndash;配置通知&ndash;&gt;-->
+    <!--<tx:advice id="txAdvice" transaction-manager="transactionManager">-->
+        <!--<tx:attributes>-->
+            <!--<tx:method name="save*" isolation="REPEATABLE_READ" read-only="false" propagation="REQUIRED"/>-->
+        <!--</tx:attributes>-->
+    <!--</tx:advice>-->
+    <!--&lt;!&ndash;配置将通知织入目标对象&ndash;&gt;-->
+    <!--<aop:config>-->
+        <!--&lt;!&ndash;配置切入点&ndash;&gt;-->
+        <!--<aop:pointcut id="txpc" expression="execution(* com.zing.service.*Impl.*(..))"></aop:pointcut> -->
+        <!--&lt;!&ndash;配置切面&ndash;&gt;-->
+        <!--<aop:advisor advice-ref="txAdvice" pointcut-ref="txpc"></aop:advisor>-->
+    <!--</aop:config>-->
+    <!--==================================aop事务xml-->
     <!--将SessionFactory配置到spring容器中-->
     <!--加载配置方案1:仍然使用外部的hibernate配置信息-->
     <!--<bean name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">-->

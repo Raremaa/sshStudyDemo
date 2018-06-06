@@ -64,7 +64,7 @@ public class HibernateTest {
     //测试aop事务
     public void fun4(){
         Customer c = new Customer();
-        c.setCust_name("刘伟丑八怪");
+        c.setCust_name("刘伟最丑");
         cs.save(c);
     }
 }
