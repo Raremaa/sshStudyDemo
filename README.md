@@ -7,4 +7,5 @@
     </li>
     <li>log4j 尚未配置实现</li>
     <li>xml文件中"/>"与"xx/>"结尾效果一样，无参数需求可以直接添加</li>
+    <li>在配置连接池/hibernate主配置的url中jdbc.jdbcUrl=jdbc:mysql:///ssh与jdbc.jdbcUrl=jdbc:mysql://localhost:3306/ssh 等价</li>
 </ol>
