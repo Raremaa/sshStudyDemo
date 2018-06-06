@@ -2,7 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--读取db.properties文件-->
     <context:property-placeholder location="db.properties"/>
@@ -13,6 +15,24 @@
         <property name="user" value="${jdbc.user}"/>
         <property name="password" value="${jdbc.password}"/>
     </bean>
+    <!--核心事务管理器-->
+    <bean name="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <!--配置通知-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" isolation="REPEATABLE_READ" read-only="false" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--配置将通知织入目标对象-->
+    <aop:config>
+        <!--配置切入点-->
+        <aop:pointcut id="txpc" expression="execution(* com.zing.service.*Impl.*(..))"></aop:pointcut> 
+        <!--配置切面-->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txpc"></aop:advisor>
+    </aop:config>
     <!--将SessionFactory配置到spring容器中-->
     <!--加载配置方案1:仍然使用外部的hibernate配置信息-->
     <!--<bean name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">-->
@@ -44,6 +64,9 @@
         <property name="userService" ref="userService"/>
     </bean>
     <bean name="userService" class="com.zing.service.UserServiceImpl"/>
+    <bean name="customService" class="com.zing.service.CustomServiceImpl">
+        <property name="cd" ref="customDao"></property>
+    </bean>
     <bean name="customDao" class="com.zing.dao.CustomDaoImpl">
         <!--注入sessionFactory-->
         <property name="sessionFactory" ref="sessionFactory"/>

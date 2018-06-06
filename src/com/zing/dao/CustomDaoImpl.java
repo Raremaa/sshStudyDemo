@@ -34,4 +34,9 @@ public class CustomDaoImpl extends HibernateDaoSupport implements CustomDao{
             return null;
         }
     }
+
+    @Override
+    public void save(Customer customer) {
+        this.getHibernateTemplate().save(customer);
+    }
 }

@@ -2,12 +2,14 @@ package com.zing.test;
 
 import com.zing.dao.CustomDao;
 import com.zing.pojo.Customer;
+import com.zing.service.CustomService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -55,5 +57,14 @@ public class HibernateTest {
     public void fun3(){
         Customer c = customDao.getById((long) 2);
         System.out.println(c);
+    }
+    @Resource(name = "customService")
+    private CustomService cs;
+    @Test
+    //测试aop事务
+    public void fun4(){
+        Customer c = new Customer();
+        c.setCust_name("刘伟丑八怪");
+        cs.save(c);
     }
 }
